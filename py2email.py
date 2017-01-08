@@ -50,6 +50,12 @@ class MailClient(object):
     self.conn.login(self.user, self.password)
     # show list
     print self.conn.list()
+  def show_unseen(self):
+    self.conn.select('INBOX')
+    # search unseen
+    t, d = self.conn.search(None, 'UNSEEN')
+    ids = d[0].split()
+    print "ids=%s" % ids
   def logout(self):
     self.conn.logout()
 
@@ -60,5 +66,6 @@ while True:
   if os.path.exists('./finish'):
     break
   client.login()
+  client.show_unseen()
   client.logout()
   time.sleep(60.0) # sleep 60 sec
